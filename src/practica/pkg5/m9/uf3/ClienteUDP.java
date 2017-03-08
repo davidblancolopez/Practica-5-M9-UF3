@@ -13,30 +13,30 @@ public class ClienteUDP {
     public static void main(String args[]) {
 
     try {
-      DatagramSocket socketUDP = new DatagramSocket();
+      DatagramSocket socket = new DatagramSocket();
       byte[] mensaje = args[0].getBytes();
       InetAddress hostServidor = InetAddress.getByName(args[1]);
       int puertoServidor = 6789;
 
-      // Construimos un datagrama para enviar el mensaje al servidor
+      //Construim un DatagramPacket per enviar un missatge al servidor.
       DatagramPacket peticion =
         new DatagramPacket(mensaje, args[0].length(), hostServidor,
                            puertoServidor);
 
-      // Enviamos el datagrama
-      socketUDP.send(peticion);
+      //S'envia el DatagramPacket.
+      socket.send(peticion);
 
-      // Construimos el DatagramPacket que contendrá la respuesta
-      byte[] bufer = new byte[1000];
-      DatagramPacket respuesta =
-        new DatagramPacket(bufer, bufer.length);
-      socketUDP.receive(respuesta);
+      //Es construeix el DatagramPacket on es guardaran la resposta del servidor
+      byte[] buffer = new byte[1000];
+      DatagramPacket resposta =
+        new DatagramPacket(buffer, buffer.length);
+      socket.receive(resposta);
 
-      // Enviamos la respuesta del servidor a la salida estandar
-      System.out.println("Respuesta: " + new String(respuesta.getData()));
+      //Mostrem la resposta del servidor.
+      System.out.println("Resposta del servidor: " + new String(resposta.getData()));
 
       // Cerramos el socket
-      socketUDP.close();
+      socket.close();
 
     } catch (SocketException e) {
       System.out.println("Socket: " + e.getMessage());
